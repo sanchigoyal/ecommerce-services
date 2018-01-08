@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ecommerce.services.bean.Customer;
 import com.ecommerce.services.entity.CustomerEntity;
-import com.ecommerce.services.repository.CustomerRespository;
+import com.ecommerce.services.repository.CustomerRepository;
 import com.ecommerce.services.util.LinkGenerator;
 
 @Service
@@ -20,7 +20,7 @@ import com.ecommerce.services.util.LinkGenerator;
 public class CustomerService {
 	
 	@Autowired
-	private CustomerRespository customerRespository;
+	private CustomerRepository customerRespository;
 
 	public Customer getCustomer(int customerId, UriInfo uriInfo, boolean expand) {
 	

@@ -1,5 +1,6 @@
 package com.ecommerce.services.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.ecommerce.services.bean.AddressUsage;
 import com.ecommerce.services.bean.AddressUsageType;
 
 @Entity
@@ -30,7 +32,7 @@ public class AddressUsageEntity {
 	private boolean usage;
 	
 	@ManyToOne
-	@JoinColumn(name="ADDRESS_ID")
+	@JoinColumn(name="ADDRESS_ID", referencedColumnName="ADDRESS_ID")
 	private AddressEntity address;
 	
 	public int getId() {
@@ -58,5 +60,10 @@ public class AddressUsageEntity {
 		this.address = address;
 	}
 	
-	
+	public void copyProperties(AddressUsage usage)
+	{
+		this.id = usage.getId();
+		this.type = usage.getType();
+		this.usage = usage.isUsage();
+	}
 }

@@ -3,6 +3,7 @@ package com.ecommerce.services.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.ecommerce.services.bean.Address;
 
 @Entity
 @Table(name="CUSTOMER_ADDRESS")
@@ -44,7 +47,7 @@ public class AddressEntity {
 	@JoinColumn(name="CUSTOMER_ID")
 	private CustomerEntity customer;
 	
-	@OneToMany(mappedBy="address")
+	@OneToMany(mappedBy="address", cascade=CascadeType.ALL)
 	private List<AddressUsageEntity> usages = new ArrayList<AddressUsageEntity>();
 	
 	public int getId() {
@@ -102,5 +105,22 @@ public class AddressEntity {
 		this.customer = customer;
 	}
 	
-	
+	public void copyProperties(Address address)
+	{
+		this.id = address.getId();
+		this.addressLine1 = address.getAddressLine1();
+		this.addressLine2 = address.getAddressLine2();
+		this.city = address.getCity();
+		this.state = address.getState();
+		this.country = address.getCountry();
+		this.zipcode = address.getZipCode();
+		
+		this.usages = new ArrayList<AddressUsageEntity>();
+		address.getUsages().forEach(item->{
+			AddressUsageEntity entity = new AddressUsageEntity();
+			entity.copyProperties(item);
+			entity.setAddress(this);
+			this.usages.add(entity);
+		});
+	}
 }

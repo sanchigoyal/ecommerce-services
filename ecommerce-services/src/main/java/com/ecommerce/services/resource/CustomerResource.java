@@ -26,10 +26,10 @@ public class CustomerResource {
 	private CustomerService customerService;
 	
 	@GET
-	@Path("/{id}")
+	@Path("/{customer-id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCustomer(
-			@PathParam("id") int customerId,
+			@PathParam("costumer-id") int customerId,
 			@Context UriInfo uriInfo,
 			@QueryParam("expand") String expand) 
 	{
