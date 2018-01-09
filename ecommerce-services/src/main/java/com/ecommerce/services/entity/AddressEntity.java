@@ -115,6 +115,8 @@ public class AddressEntity {
 		this.country = address.getCountry();
 		this.zipcode = address.getZipCode();
 		
+		// TODO provide link to category here instead of service.
+		
 		this.usages = new ArrayList<AddressUsageEntity>();
 		address.getUsages().forEach(item->{
 			AddressUsageEntity entity = new AddressUsageEntity();
