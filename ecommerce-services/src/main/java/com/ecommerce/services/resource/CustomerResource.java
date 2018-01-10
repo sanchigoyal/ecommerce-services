@@ -2,6 +2,7 @@ package com.ecommerce.services.resource;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -29,20 +30,16 @@ public class CustomerResource {
 	@Path("/{customer-id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCustomer(
-			@PathParam("costumer-id") int customerId,
+			@NotNull(message="{customer.id.notnull}")
+			@PathParam("customer-id") int customerId,
 			@Context UriInfo uriInfo,
 			@QueryParam("expand") String expand) 
 	{
 		Customer customer = null;
 		
-		if(expand != null && EXPAND_CUSTOMER.equalsIgnoreCase(expand))
-		{
-			customer = customerService.getCustomer(customerId, uriInfo, true);
-		}
-		else
-		{
-			customer = customerService.getCustomer(customerId, uriInfo, false);
-		}
+		boolean doExpand = "ALL".equalsIgnoreCase(expand) ? true : false;
+		
+		customer = customerService.getCustomer(customerId, uriInfo, doExpand);
 		
 		return Response.status(Status.OK)
 				.entity(customer)

@@ -1,7 +1,6 @@
 package com.ecommerce.services.service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.ws.rs.core.UriInfo;
@@ -12,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ecommerce.services.bean.Customer;
 import com.ecommerce.services.entity.CustomerEntity;
+import com.ecommerce.services.exception.RecordNotFoundException;
 import com.ecommerce.services.repository.CustomerRepository;
 import com.ecommerce.services.util.LinkGenerator;
 
@@ -25,8 +25,12 @@ public class CustomerService {
 	public Customer getCustomer(int customerId, UriInfo uriInfo, boolean expand) {
 	
 		CustomerEntity entity = customerRespository.findOne(customerId);
-		Customer customer = new Customer();
+		if(entity == null)
+		{
+			throw new RecordNotFoundException(customerId, "customer record not found");
+		}
 		
+		Customer customer = new Customer();
 		if(expand)
 		{
 			customer.copyProperties(entity);
