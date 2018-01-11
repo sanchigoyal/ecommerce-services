@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -32,12 +33,13 @@ public class ConstraintViolationExceptionMapper implements ExceptionMapper<Const
 			message.getProperties()
 				.add(new ErrorProperty(
 						item.getPropertyPath().toString(),
-						item.getMessage(),
-						item.getInvalidValue().toString()));
+						item.getMessage(), 
+						item.getInvalidValue() != null ? item.getInvalidValue().toString() : ""));
 		});
 		
 		return Response.status(Status.BAD_REQUEST)
 				.entity(message)
+				.type(MediaType.APPLICATION_JSON) // explicitly setting this to avoid MessageBodyWritter(text/xml) not found exception.
 				.build();
 	}
 

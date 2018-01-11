@@ -2,6 +2,7 @@ package com.ecommerce.services.resource;
 
 import java.util.List;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -22,7 +23,6 @@ import com.ecommerce.services.service.CustomerService;
 @Path("/customers")
 public class CustomerResource {
 	
-	private static final String EXPAND_CUSTOMER = "ALL";
 	@Autowired
 	private CustomerService customerService;
 	
@@ -31,6 +31,7 @@ public class CustomerResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCustomer(
 			@NotNull(message="{customer.id.notnull}")
+			@Min(value=0, message="{customer.id.positive}")
 			@PathParam("customer-id") int customerId,
 			@Context UriInfo uriInfo,
 			@QueryParam("expand") String expand) 
@@ -53,14 +54,10 @@ public class CustomerResource {
 			@QueryParam("expand") String expand)
 	{
 		List<Customer> customers = null;
-		if(expand != null && EXPAND_CUSTOMER.equalsIgnoreCase(expand))
-		{
-			customers = customerService.getAllCustomers(uriInfo, true);
-		}
-		else
-		{
-			customers = customerService.getAllCustomers(uriInfo, false);
-		}
+
+		boolean doExpand = "ALL".equalsIgnoreCase(expand) ? true : false;
+		
+		customers = customerService.getAllCustomers(uriInfo, doExpand);
 		
 		return Response.status(Status.OK)
 				.entity(customers)

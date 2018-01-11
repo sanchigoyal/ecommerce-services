@@ -3,16 +3,35 @@ package com.ecommerce.services.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import com.ecommerce.services.entity.AddressEntity;
 
 public class Address {
 	
 	private int id;
+	
+	@NotNull(message="{customer.address.addressline1.notnull}")
+	@Size(min=1, max=256, message="{customer.address.addressline1.size}")
 	private String addressLine1;
+	
 	private String addressLine2;
+	
+	@NotNull(message="{customer.address.city.notnull}")
+	@Size(min=1, max=256, message="{customer.address.city.size}")
 	private String city;
+	
+	@NotNull(message="{customer.address.state.notnull}")
+	@Size(min=1, max=256, message="{customer.address.state.size}")
 	private String state;
+	
+	@NotNull(message="{customer.address.country.notnull}")
+	@Size(min=1, max=256, message="{customer.address.country.size}")
 	private String country;
+	
+	@NotNull(message="{customer.address.zipcode.notnull}")
+	@Size(min=1, max=256, message="{customer.address.zipcode.size}")
 	private String zipCode;
 	
 	private List<AddressUsage> usages = new ArrayList<AddressUsage>();

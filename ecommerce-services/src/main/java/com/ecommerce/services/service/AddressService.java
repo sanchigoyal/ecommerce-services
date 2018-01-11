@@ -39,6 +39,9 @@ public class AddressService {
 		entity.setCustomer(new CustomerEntity());
 		entity.getCustomer().setId(customerId);
 		addressRepository.save(entity);
+		
+		// post save, id field is populated by JPA.
+		address.setId(entity.getId());
 	}
 	
 	public void deleteAddress(int addressId)
