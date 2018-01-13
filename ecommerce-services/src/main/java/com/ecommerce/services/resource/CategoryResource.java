@@ -2,6 +2,9 @@ package com.ecommerce.services.resource;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -17,6 +20,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.ecommerce.services.bean.Category;
 import com.ecommerce.services.service.CategoryService;
@@ -29,7 +33,10 @@ public class CategoryResource {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addCategory(Category category)
+	public Response addCategory(
+			@NotNull(message="{category.notnull}")
+			@Valid
+			Category category)
 	{
 		categoryService.addCategory(category);
 		
@@ -54,6 +61,8 @@ public class CategoryResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCategory(
 			@Context UriInfo uriInfo,
+			@NotNull(message="{category.id.notnull}")
+			@Min(value=0, message="{category.id.positive}")
 			@PathParam("product-category-id") int categoryId,
 			@QueryParam("expand") String expand)
 	{
@@ -68,9 +77,18 @@ public class CategoryResource {
 	@Path("{product-category-id}")
 	public Response deleteCategory(
 			@Context UriInfo uriInfo,
+			@NotNull(message="{category.id.notnull}")
+			@Min(value=0, message="{category.id.positive}")
 			@PathParam("product-category-id") int categoryId)
 	{
-		categoryService.deleteCategory(categoryId);
+		try
+		{
+			categoryService.deleteCategory(categoryId);
+		}
+		catch(EmptyResultDataAccessException e)
+		{
+			// do nothing - assume already deleted
+		}
 		return Response.status(Status.NO_CONTENT).build();
 	}
 }

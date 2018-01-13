@@ -23,7 +23,7 @@ import com.ecommerce.services.bean.Address;
 import com.ecommerce.services.service.AddressService;
 
 
-@Path("/customers/{customer-id}/addresses")
+@Path("/users/{user-id}/addresses")
 public class AddressResource {
 	
 	@Autowired
@@ -32,28 +32,28 @@ public class AddressResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAddresses(
-			@NotNull(message="{customer.id.notnull}")
-			@Min(value=0, message="{customer.id.positive}")
-			@PathParam("customer-id") int customerId,
+			@NotNull(message="{user.id.notnull}")
+			@Min(value=0, message="{user.id.positive}")
+			@PathParam("user-id") int userId,
 			@Context UriInfo uriInfo)
 	{
 		return Response.status(Status.OK)
-				.entity(addressService.getAllAddresses(customerId))
+				.entity(addressService.getAllAddresses(userId))
 				.build();
 	}
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addAddress(
-			@NotNull(message="{customer.id.notnull}")
-			@Min(value=0, message="{customer.id.positive}")
-			@PathParam("customer-id") int customerId,
-			@NotNull(message="{customer.address.notnull}")
+			@NotNull(message="{user.id.notnull}")
+			@Min(value=0, message="{user.id.positive}")
+			@PathParam("user-id") int userId,
+			@NotNull(message="{user.address.notnull}")
 			@Valid
 			Address address,
 			@Context UriInfo uriInfo)
 	{
-		addressService.addAddress(customerId, address);
+		addressService.addAddress(userId, address);
 		return Response.status(Status.CREATED)
 			   .build();
 	}
@@ -61,11 +61,11 @@ public class AddressResource {
 	@DELETE
 	@Path("/{address-id}")
 	public Response deleteAddress(
-			@NotNull(message="{customer.id.notnull}")
-			@Min(value=0, message="{customer.id.positive}")
-			@PathParam("customer-id") int customerId,
-			@NotNull(message="{customer.address.id.notnull}")
-			@Min(value=0, message="{customer.address.id.positive}")
+			@NotNull(message="{user.id.notnull}")
+			@Min(value=0, message="{user.id.positive}")
+			@PathParam("user-id") int userId,
+			@NotNull(message="{user.address.id.notnull}")
+			@Min(value=0, message="{user.address.id.positive}")
 			@PathParam("address-id") int addressId)
 	{
 		try

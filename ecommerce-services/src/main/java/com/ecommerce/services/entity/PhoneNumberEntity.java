@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import com.ecommerce.services.bean.PhoneNumberType;
 
 @Entity
-@Table(name="CUST_PHONE_NUM")
+@Table(name="USER_PHONE_NUM")
 public class PhoneNumberEntity {
 	
 	@Id
@@ -30,8 +30,8 @@ public class PhoneNumberEntity {
 	private String number;
 	
 	@ManyToOne
-	@JoinColumn(name="CUSTOMER_ID")
-	private CustomerEntity customer;
+	@JoinColumn(name="USER_ID")
+	private UserEntity user;
 	
 	public int getId() {
 		return id;
@@ -51,11 +51,11 @@ public class PhoneNumberEntity {
 	public void setNumber(String number) {
 		this.number = number;
 	}
-	public CustomerEntity getCustomer() {
-		return customer;
+	public UserEntity getUser() {
+		return user;
 	}
-	public void setCustomer(CustomerEntity customer) {
-		this.customer = customer;
+	public void setUser(UserEntity user) {
+		this.user = user;
 	}
 	
 	

@@ -17,7 +17,7 @@ import javax.persistence.Table;
 import com.ecommerce.services.bean.Address;
 
 @Entity
-@Table(name="CUSTOMER_ADDRESS")
+@Table(name="USER_ADDRESS")
 public class AddressEntity {
 	
 	@Id
@@ -44,8 +44,8 @@ public class AddressEntity {
 	private String zipcode;
 	
 	@ManyToOne
-	@JoinColumn(name="CUSTOMER_ID")
-	private CustomerEntity customer;
+	@JoinColumn(name="USER_ID")
+	private UserEntity user;
 	
 	@OneToMany(mappedBy="address", cascade=CascadeType.ALL)
 	private List<AddressUsageEntity> usages = new ArrayList<AddressUsageEntity>();
@@ -98,11 +98,11 @@ public class AddressEntity {
 	public void setZipcode(String zipcode) {
 		this.zipcode = zipcode;
 	}
-	public CustomerEntity getCustomer() {
-		return customer;
+	public UserEntity getUser() {
+		return user;
 	}
-	public void setCustomer(CustomerEntity customer) {
-		this.customer = customer;
+	public void setUser(UserEntity user) {
+		this.user = user;
 	}
 	
 	public void copyProperties(Address address)

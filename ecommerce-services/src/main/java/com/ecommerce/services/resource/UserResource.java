@@ -17,59 +17,59 @@ import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ecommerce.services.bean.Customer;
-import com.ecommerce.services.service.CustomerService;
+import com.ecommerce.services.bean.User;
+import com.ecommerce.services.service.UserService;
 
-@Path("/customers")
-public class CustomerResource {
+@Path("/users")
+public class UserResource {
 	
 	@Autowired
-	private CustomerService customerService;
+	private UserService userService;
 	
 	@GET
-	@Path("/{customer-id}")
+	@Path("/{user-id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getCustomer(
-			@NotNull(message="{customer.id.notnull}")
-			@Min(value=0, message="{customer.id.positive}")
-			@PathParam("customer-id") int customerId,
+	public Response getuser(
+			@NotNull(message="{user.id.notnull}")
+			@Min(value=0, message="{user.id.positive}")
+			@PathParam("user-id") int userId,
 			@Context UriInfo uriInfo,
 			@QueryParam("expand") String expand) 
 	{
-		Customer customer = null;
+		User user = null;
 		
 		boolean doExpand = "ALL".equalsIgnoreCase(expand) ? true : false;
 		
-		customer = customerService.getCustomer(customerId, uriInfo, doExpand);
+		user = userService.getUser(userId, uriInfo, doExpand);
 		
 		return Response.status(Status.OK)
-				.entity(customer)
+				.entity(user)
 				.build();
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllCustomers(
+	public Response getAllusers(
 			@Context UriInfo uriInfo,
 			@QueryParam("expand") String expand)
 	{
-		List<Customer> customers = null;
+		List<User> users = null;
 
 		boolean doExpand = "ALL".equalsIgnoreCase(expand) ? true : false;
 		
-		customers = customerService.getAllCustomers(uriInfo, doExpand);
+		users = userService.getAllUsers(uriInfo, doExpand);
 		
 		return Response.status(Status.OK)
-				.entity(customers)
+				.entity(users)
 				.build();
 		
 	}
 
-	public CustomerService getCustomerService() {
-		return customerService;
+	public UserService getuserService() {
+		return userService;
 	}
 
-	public void setCustomerService(CustomerService customerService) {
-		this.customerService = customerService;
+	public void setuserService(UserService userService) {
+		this.userService = userService;
 	}
 }

@@ -3,13 +3,23 @@ package com.ecommerce.services.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import com.ecommerce.services.entity.CategoryEntity;
 
 public class Category {
 
 	private int id;
+	
+	@NotNull(message="{category.name.notnull}")
+	@Size(min=1, max=256, message="{category.name.size}")
 	private String name;
+	
+	@NotNull(message="{category.description.notnull}")
+	@Size(min=1, max=256, message="{category.description.size}")
 	private String description;
+	
 	private boolean active;
 	private List<Product> products = new ArrayList<Product>();
 	private List<Link> links = new ArrayList<Link>();

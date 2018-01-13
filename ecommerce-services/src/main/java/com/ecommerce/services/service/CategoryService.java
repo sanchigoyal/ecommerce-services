@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ecommerce.services.bean.Category;
 import com.ecommerce.services.entity.CategoryEntity;
+import com.ecommerce.services.exception.RecordNotFoundException;
 import com.ecommerce.services.repository.CategoryRepository;
 import com.ecommerce.services.util.LinkGenerator;
 
@@ -59,16 +60,20 @@ public class CategoryService {
 	public Category getCategory(UriInfo uriInfo, boolean doExpand, int categoryId) {
 		Category category = null;
 		
+		CategoryEntity entity = categoryRepository.findOne(categoryId);
+		if(entity == null)
+		{
+			throw new RecordNotFoundException(categoryId, "category record not found");
+		}
+		
 		if(doExpand)
 		{
-			CategoryEntity entity = categoryRepository.findOne(categoryId);
 			category = new Category();
 			category.copyProperties(entity);
 			addLinks(category, uriInfo);
 		}
 		else
 		{
-			CategoryEntity entity = categoryRepository.findOne(categoryId);
 			category = new Category();
 			category.copyPropertiesLazyFetch(entity);
 			addLinks(category, uriInfo);

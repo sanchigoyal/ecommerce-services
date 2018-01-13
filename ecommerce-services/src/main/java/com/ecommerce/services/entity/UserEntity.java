@@ -15,12 +15,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="CUSTOMER")
-public class CustomerEntity {
+@Table(name="USER")
+public class UserEntity {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="CUSTOMER_ID")
+	@Column(name="USER_ID")
 	private int id;
 	
 	@Column(name="FIRST_NM")
@@ -39,10 +39,10 @@ public class CustomerEntity {
 	@Temporal(TemporalType.DATE)
 	private Date dateOfBirth;
 	
-	@OneToMany(mappedBy="customer")
+	@OneToMany(mappedBy="user")
 	private List<AddressEntity> addresses = new ArrayList<AddressEntity>();
 	
-	@OneToMany(mappedBy="customer")
+	@OneToMany(mappedBy="user")
 	private List<PhoneNumberEntity> phones = new ArrayList<PhoneNumberEntity>();
 	
 	public int getId() {

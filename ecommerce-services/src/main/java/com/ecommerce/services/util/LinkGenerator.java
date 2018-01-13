@@ -6,7 +6,7 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import com.ecommerce.services.resource.CategoryResource;
-import com.ecommerce.services.resource.CustomerResource;
+import com.ecommerce.services.resource.UserResource;
 import com.ecommerce.services.resource.ProductResource;
 
 public class LinkGenerator {
@@ -45,10 +45,10 @@ public class LinkGenerator {
 		
 	}
 	
-	public static String getCustomerResourceInstanceURL(UriInfo uriInfo, int customerId)
+	public static String getUserResourceInstanceURL(UriInfo uriInfo, int customerId)
 	{
 		String url = uriInfo.getBaseUriBuilder()
-						.path(CustomerResource.class)
+						.path(UserResource.class)
 						.path(String.valueOf(customerId))
 						.build()
 						.toString();

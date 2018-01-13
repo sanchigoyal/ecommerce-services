@@ -6,5 +6,5 @@ import com.ecommerce.services.entity.AddressEntity;
 
 public interface AddressRepository extends CrudRepository<AddressEntity, Integer> {
 
-	public List<AddressEntity> findAllAddressesByCustomerId(int customerId);
+	public List<AddressEntity> findAllAddressesByUserId(int customerId);
 }

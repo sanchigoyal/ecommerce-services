@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.ecommerce.services.entity.CustomerEntity;
+import com.ecommerce.services.entity.UserEntity;
 
-public class Customer {
+public class User {
 
 	private int id;
 	private String firstName;
@@ -66,7 +66,7 @@ public class Customer {
 	public void setLinks(List<Link> links) {
 		this.links = links;
 	}
-	public void copyPropertiesLazyFetch(CustomerEntity entity)
+	public void copyPropertiesLazyFetch(UserEntity entity)
 	{
 		this.id = entity.getId();
 		this.firstName = entity.getFirstName();
@@ -75,7 +75,7 @@ public class Customer {
 		this.dateOfBirth = entity.getDateOfBirth();
 	}
 	
-	public void copyProperties(CustomerEntity entity)
+	public void copyProperties(UserEntity entity)
 	{
 		copyPropertiesLazyFetch(entity);
 		
