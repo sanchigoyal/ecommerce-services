@@ -24,6 +24,13 @@ public class Category {
 	private List<Product> products = new ArrayList<Product>();
 	private List<Link> links = new ArrayList<Link>();
 	
+	public Category(int id)
+	{
+		this.id = id;
+	}
+	
+	public Category() {}
+	
 	public int getId() {
 		return id;
 	}

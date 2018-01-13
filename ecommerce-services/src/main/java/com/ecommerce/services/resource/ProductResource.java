@@ -1,5 +1,7 @@
 package com.ecommerce.services.resource;
 
+import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -16,10 +18,18 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+
+import com.ecommerce.services.bean.Category;
 import com.ecommerce.services.bean.Product;
+import com.ecommerce.services.service.ProductService;
 
 @Path("/product-categories/{product-category-id}/products")
 public class ProductResource {
+	
+	@Autowired
+	private ProductService productService;
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -29,7 +39,10 @@ public class ProductResource {
 			@PathParam("product-category-id") int categoryId,
 			@Context UriInfo uriInfo)
 	{
-		return Response.status(Status.OK).build();
+		List<Product> products = productService.getAllProducts(categoryId, uriInfo);
+		return Response.status(Status.OK)
+				.entity(products)
+				.build();
 	}
 	
 	@GET
@@ -44,7 +57,10 @@ public class ProductResource {
 			@PathParam("product-id") int productId,
 			@Context UriInfo uriInfo)
 	{
-		return Response.status(Status.OK).build();
+		Product product = productService.getProduct(categoryId, productId, uriInfo);
+		return Response.status(Status.OK)
+				.entity(product)
+				.build();
 	}
 	
 	@POST
@@ -57,6 +73,8 @@ public class ProductResource {
 			@Valid
 			Product product)
 	{
+		product.setCategory(new Category(categoryId));
+		productService.addProduct(product);
 		return Response.status(Status.CREATED).build();
 	}
 	
@@ -71,6 +89,23 @@ public class ProductResource {
 			@Min(value=0, message="{category.product.id.positive}")
 			@PathParam("product-id") int productId)
 	{
+		try
+		{
+			productService.deleteProduct(productId);
+		}
+		catch(EmptyResultDataAccessException e)
+		{
+			// do nothing - assume already deleted
+		}
+		
 		return Response.status(Status.NO_CONTENT).build();
+	}
+
+	public ProductService getProductService() {
+		return productService;
+	}
+
+	public void setProductService(ProductService productService) {
+		this.productService = productService;
 	}
 }
