@@ -6,6 +6,7 @@ Ecommerce backend service supporting CRUD operations for all associated resource
   1. Spring Boot application
   2. Spring Data JPA(Hibernate as provider)
   3. JAX-RS based RESTful resources
+  4. Supports Basic Authentication
   
 ### Functionalities
 
