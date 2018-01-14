@@ -2,6 +2,9 @@ package com.ecommerce.services.resource;
 
 import java.util.List;
 
+import javax.annotation.security.DenyAll;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -25,12 +28,14 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import com.ecommerce.services.bean.Category;
 import com.ecommerce.services.service.CategoryService;
 
+@DenyAll
 @Path("/product-categories")
 public class CategoryResource {
 	
 	@Autowired
 	CategoryService categoryService;
-
+	
+	@RolesAllowed("ADMIN")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addCategory(
@@ -43,6 +48,7 @@ public class CategoryResource {
 		return Response.status(Status.CREATED).build();
 	}
 	
+	@PermitAll
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllCategory(
@@ -56,6 +62,7 @@ public class CategoryResource {
 				.build();
 	}
 	
+	@PermitAll
 	@GET
 	@Path("{product-category-id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -73,6 +80,7 @@ public class CategoryResource {
 				.build();
 	}
 	
+	@RolesAllowed("ADMIN")
 	@DELETE
 	@Path("{product-category-id}")
 	public Response deleteCategory(

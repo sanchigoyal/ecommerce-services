@@ -8,4 +8,5 @@ import com.ecommerce.services.entity.UserEntity;
 @Repository
 public interface UserRepository extends CrudRepository<UserEntity, Integer> {
 
+	public UserEntity findOneUserByEmailAndPassword(String email, String password);
 }

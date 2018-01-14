@@ -2,6 +2,9 @@ package com.ecommerce.services.resource;
 
 import java.util.List;
 
+import javax.annotation.security.DenyAll;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -25,12 +28,14 @@ import com.ecommerce.services.bean.Category;
 import com.ecommerce.services.bean.Product;
 import com.ecommerce.services.service.ProductService;
 
+@DenyAll
 @Path("/product-categories/{product-category-id}/products")
 public class ProductResource {
 	
 	@Autowired
 	private ProductService productService;
 	
+	@PermitAll
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllProducts(
@@ -45,6 +50,7 @@ public class ProductResource {
 				.build();
 	}
 	
+	@PermitAll
 	@GET
 	@Path("/{product-id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -63,6 +69,7 @@ public class ProductResource {
 				.build();
 	}
 	
+	@RolesAllowed("ADMIN")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addProduct(
@@ -78,6 +85,7 @@ public class ProductResource {
 		return Response.status(Status.CREATED).build();
 	}
 	
+	@RolesAllowed("ADMIN")
 	@DELETE
 	@Path("/{product-id}")
 	@Produces(MediaType.APPLICATION_JSON)

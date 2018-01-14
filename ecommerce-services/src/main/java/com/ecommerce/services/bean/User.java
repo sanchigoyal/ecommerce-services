@@ -15,6 +15,7 @@ public class User {
 	private Date dateOfBirth;
 	private List<Address> addresses = new ArrayList<Address>();
 	private List<PhoneNumber> phones = new ArrayList<PhoneNumber>();
+	private List<UserRole> roles = new ArrayList<UserRole>();
 	private List<Link> links = new ArrayList<Link>();
 	
 	public int getId() {
@@ -66,6 +67,13 @@ public class User {
 	public void setLinks(List<Link> links) {
 		this.links = links;
 	}
+	
+	public List<UserRole> getRoles() {
+		return roles;
+	}
+	public void setRoles(List<UserRole> roles) {
+		this.roles = roles;
+	}
 	public void copyPropertiesLazyFetch(UserEntity entity)
 	{
 		this.id = entity.getId();
@@ -89,6 +97,12 @@ public class User {
 			PhoneNumber number = new PhoneNumber();
 			number.copyProperties(item);
 			this.phones.add(number);
+		});
+		
+		entity.getRoles().forEach(item->{
+			UserRole role= new UserRole();
+			role.setRole(item.getRole());
+			this.roles.add(role);
 		});
 	}
 	

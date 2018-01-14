@@ -77,4 +77,17 @@ public class UserService {
 				"self",
 				LinkGenerator.getUserResourceInstanceURL(uriInfo, user.getId()));
 	}
+
+	public User findOneUserByEmailAndPassword(String username, String password) {
+		
+		UserEntity entity = userRespository.findOneUserByEmailAndPassword(username, password);
+		if(entity == null)
+		{
+			return null;
+		}
+		
+		User user = new User();
+		user.copyProperties(entity);
+		return user;
+	}
 }
